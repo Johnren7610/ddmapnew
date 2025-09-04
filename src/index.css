@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  
+  --color-primary-green: #00B14F;
+  --color-primary-green-dark: #009B42;
+  --color-primary-green-light: #E8F8F0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #1e1e1e;
+  line-height: 1.6;
+}
+
+/* Custom utility classes inspired by Uber Eats */
+.btn-primary {
+  background-color: var(--color-primary-green);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 200ms;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #111827;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 200ms;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  border: 1px solid #f3f4f6;
+  transition: all 200ms;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+  transition: all 200ms;
+  background-color: white;
+}
+
+.input-field:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--color-green-500);
+}
+
+.badge-success {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: var(--color-green-100);
+  color: var(--color-green-800);
+}
+
+.badge-warning {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-danger {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #fecaca;
+  color: #991b1b;
+}
+
+.badge-info {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* Typography improvements */
+h1, h2, h3, h4, h5, h6 {
+  color: #1e1e1e;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  /* 提高触摸目标的最小尺寸 */
+  button, 
+  .btn-primary, 
+  .btn-secondary,
+  input[type="button"],
+  input[type="submit"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* 优化小屏幕文字可读性 */
+  body {
+    font-size: 16px; /* 防止iOS自动缩放 */
+    line-height: 1.5;
+  }
+  
+  /* 优化输入框在移动端的表现 */
+  .input-field,
+  input, 
+  textarea {
+    font-size: 16px; /* 防止iOS键盘弹出时缩放 */
+    padding: 14px 16px;
+  }
+  
+  /* 移动端模态框优化 */
+  .modal-backdrop {
+    padding: 16px;
+  }
+  
+  /* 触摸友好的间距 */
+  .touch-target {
+    padding: 12px;
+    margin: 8px 0;
+  }
+  
+  /* 改善可点击区域 */
+  .clickable {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  /* 移动端滚动优化 */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  /* 防止双击缩放 */
+  .no-zoom {
+    touch-action: manipulation;
+  }
+  
+  /* 移动端卡片间距优化 */
+  .card {
+    margin-bottom: 12px;
+  }
+  
+  /* 移动端按钮组优化 */
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* 移动端文字大小优化 */
+  .text-mobile-sm {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  .text-mobile-base {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .text-mobile-lg {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+}
+
+/* 触摸设备专用样式 */
+@media (hover: none) {
+  /* 移除hover效果，避免在触摸设备上的粘滞问题 */
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .card:hover {
+    transform: none;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+  }
+  
+  /* 为触摸交互添加活动状态 */
+  .btn-primary:active {
+    background-color: var(--color-primary-green-dark);
+    transform: translateY(1px);
+  }
+  
+  .btn-secondary:active {
+    background-color: #f3f4f6;
+    transform: translateY(1px);
+  }
+}
+
+/* 移动端专用工具类 */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.tap-highlight-none {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scrollable-mobile {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
