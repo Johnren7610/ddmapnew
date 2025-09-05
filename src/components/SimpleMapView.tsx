@@ -63,7 +63,10 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
   };
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-br from-blue-100 to-green-100 rounded-lg overflow-hidden">
+    <div className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden"
+         style={{
+           backgroundImage: `url("data:image/svg+xml,%3Csvg width='600' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='grid' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 20 0 L 0 0 0 20' fill='none' stroke='%23e5e7eb' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='%23f3f4f6'/%3E%3Crect width='100%25' height='100%25' fill='url(%23grid)'/%3E%3Cg%3E%3C!-- 海岸线 --%3E%3Cpath d='M0,350 Q150,340 300,350 T600,360 L600,400 L0,400 Z' fill='%23bfdbfe' stroke='%2393c5fd' stroke-width='2'/%3E%3C!-- 公园 --%3E%3Crect x='50' y='50' width='100' height='80' rx='10' fill='%23bbf7d0' stroke='%2386efac' stroke-width='2'/%3E%3C!-- 主要街道 --%3E%3Cpath d='M0,120 L600,120' stroke='%236b7280' stroke-width='4'/%3E%3Cpath d='M0,250 L600,250' stroke='%236b7280' stroke-width='4'/%3E%3Cpath d='M200,0 L200,400' stroke='%236b7280' stroke-width='4'/%3E%3Cpath d='M400,0 L400,400' stroke='%236b7280' stroke-width='4'/%3E%3C!-- 建筑群 --%3E%3Crect x='180' y='100' width='40' height='40' fill='%23d1d5db'/%3E%3Crect x='230' y='90' width='30' height='50' fill='%23d1d5db'/%3E%3Crect x='270' y='105' width='25' height='35' fill='%23d1d5db'/%3E%3C!-- 住宅区 --%3E%3Ccircle cx='450' cy='180' r='15' fill='%23fed7aa'/%3E%3Ccircle cx='480' cy='200' r='12' fill='%23fed7aa'/%3E%3Ccircle cx='420' cy='210' r='10' fill='%23fed7aa'/%3E%3C/g%3E%3C/svg%3E")`
+         }}
       {/* 缩放控制按钮 */}
       <div className="absolute top-4 right-4 flex flex-col space-y-2 z-20">
         <button
@@ -88,45 +91,29 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
         className="absolute inset-0 transition-transform duration-300"
         style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
       >
-      {/* 地图背景网格 - 街道 */}
-      <div 
-        className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(107, 114, 128, 0.6) 2px, transparent 2px),
-            linear-gradient(90deg, rgba(107, 114, 128, 0.6) 2px, transparent 2px),
-            linear-gradient(rgba(156, 163, 175, 0.3) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(156, 163, 175, 0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: '120px 120px, 120px 120px, 30px 30px, 30px 30px'
-        }}
-      ></div>
-
-      {/* 模拟街道和地标 */}
+      {/* 地图图层叠加 */}
       <div className="absolute inset-0">
-        {/* 主要街道 */}
-        <div className="absolute top-1/3 left-0 w-full h-1 bg-gray-400 opacity-60"></div>
-        <div className="absolute top-2/3 left-0 w-full h-1 bg-gray-400 opacity-60"></div>
-        <div className="absolute top-0 left-1/3 w-1 h-full bg-gray-400 opacity-60"></div>
-        <div className="absolute top-0 left-2/3 w-1 h-full bg-gray-400 opacity-60"></div>
-
-        {/* 公园区域 */}
-        <div className="absolute top-16 left-16 w-20 h-20 bg-green-200 rounded-lg opacity-50">
-          <div className="text-xs text-green-700 p-1 font-semibold">🌳 Park</div>
+        {/* 地名标签 */}
+        <div className="absolute top-16 left-16 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-semibold text-green-700 shadow">
+          🌳 Stanley Park
         </div>
         
-        {/* 海岸线 */}
-        <div className="absolute bottom-0 left-0 w-full h-12 bg-blue-200 opacity-50">
-          <div className="text-xs text-blue-700 p-1">🌊 English Bay</div>
+        <div className="absolute bottom-16 left-4 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-semibold text-blue-700 shadow">
+          🌊 English Bay
         </div>
 
-        {/* 建筑群 */}
-        <div className="absolute top-32 left-64 w-16 h-16 bg-gray-300 rounded opacity-40">
-          <div className="text-xs text-gray-600 p-1">🏢 Downtown</div>
+        <div className="absolute top-24 left-48 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-semibold text-gray-700 shadow">
+          🏢 Downtown Vancouver
         </div>
         
-        <div className="absolute top-80 left-96 w-12 h-12 bg-orange-200 rounded opacity-40">
-          <div className="text-xs text-orange-600 p-1">🏘️</div>
+        <div className="absolute top-48 right-32 bg-white bg-opacity-90 px-2 py-1 rounded text-xs font-semibold text-orange-700 shadow">
+          🏘️ Residential Area
+        </div>
+
+        {/* 指北针 */}
+        <div className="absolute top-20 right-20 bg-white bg-opacity-90 w-12 h-12 rounded-full shadow-lg flex items-center justify-center">
+          <div className="text-red-500 font-bold text-lg">N</div>
+          <div className="absolute top-1 text-xs text-gray-500">↑</div>
         </div>
       </div>
 
