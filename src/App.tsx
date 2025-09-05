@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import OfflineMapView from './components/OfflineMapView'
+import SimpleMapView from './components/SimpleMapView'
 import './App.css'
 
 function App() {
@@ -92,8 +92,8 @@ function App() {
                         ✕
                       </button>
                     </div>
-                    <div className="h-full">
-                      <OfflineMapView 
+                    <div style={{ height: '500px' }}>
+                      <SimpleMapView 
                         onAddAnnotation={(location) => {
                           console.log('新增地址标注:', location);
                         }} 
