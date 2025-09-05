@@ -88,17 +88,47 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
         className="absolute inset-0 transition-transform duration-300"
         style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
       >
-      {/* 地图背景网格 */}
+      {/* 地图背景网格 - 街道 */}
       <div 
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
+            linear-gradient(rgba(107, 114, 128, 0.6) 2px, transparent 2px),
+            linear-gradient(90deg, rgba(107, 114, 128, 0.6) 2px, transparent 2px),
+            linear-gradient(rgba(156, 163, 175, 0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(156, 163, 175, 0.3) 1px, transparent 1px)
           `,
-          backgroundSize: '30px 30px'
+          backgroundSize: '120px 120px, 120px 120px, 30px 30px, 30px 30px'
         }}
       ></div>
+
+      {/* 模拟街道和地标 */}
+      <div className="absolute inset-0">
+        {/* 主要街道 */}
+        <div className="absolute top-1/3 left-0 w-full h-1 bg-gray-400 opacity-60"></div>
+        <div className="absolute top-2/3 left-0 w-full h-1 bg-gray-400 opacity-60"></div>
+        <div className="absolute top-0 left-1/3 w-1 h-full bg-gray-400 opacity-60"></div>
+        <div className="absolute top-0 left-2/3 w-1 h-full bg-gray-400 opacity-60"></div>
+
+        {/* 公园区域 */}
+        <div className="absolute top-16 left-16 w-20 h-20 bg-green-200 rounded-lg opacity-50">
+          <div className="text-xs text-green-700 p-1 font-semibold">🌳 Park</div>
+        </div>
+        
+        {/* 海岸线 */}
+        <div className="absolute bottom-0 left-0 w-full h-12 bg-blue-200 opacity-50">
+          <div className="text-xs text-blue-700 p-1">🌊 English Bay</div>
+        </div>
+
+        {/* 建筑群 */}
+        <div className="absolute top-32 left-64 w-16 h-16 bg-gray-300 rounded opacity-40">
+          <div className="text-xs text-gray-600 p-1">🏢 Downtown</div>
+        </div>
+        
+        <div className="absolute top-80 left-96 w-12 h-12 bg-orange-200 rounded opacity-40">
+          <div className="text-xs text-orange-600 p-1">🏘️</div>
+        </div>
+      </div>
 
       {/* 城市标签 */}
       <div className="absolute top-4 left-4 bg-white rounded-lg p-3 shadow-md">
