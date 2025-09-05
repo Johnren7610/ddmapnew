@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import OfflineMapView from './components/OfflineMapView'
 import './App.css'
 
 function App() {
+  const [showMap, setShowMap] = useState(false);
   return (
     <div className="App">
       <div className="min-h-screen bg-gray-50">
@@ -68,6 +70,38 @@ function App() {
                   <strong>环境变量:</strong> {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? '✅ 已配置' : '❌ 未配置'}
                 </p>
               </div>
+              
+              <div className="mt-8">
+                <button 
+                  onClick={() => setShowMap(true)}
+                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                >
+                  🚀 启动地图功能
+                </button>
+              </div>
+              
+              {showMap && (
+                <div className="mt-8">
+                  <div className="bg-white rounded-xl shadow-lg overflow-hidden" style={{ height: '600px' }}>
+                    <div className="flex items-center justify-between p-4 border-b">
+                      <h3 className="text-lg font-semibold">DDmap 演示版</h3>
+                      <button 
+                        onClick={() => setShowMap(false)}
+                        className="text-gray-500 hover:text-gray-700"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div className="h-full">
+                      <OfflineMapView 
+                        onAddAnnotation={(location) => {
+                          console.log('新增地址标注:', location);
+                        }} 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </main>
