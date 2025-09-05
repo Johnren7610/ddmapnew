@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
+import MapView from './components/MapView'
 import SimpleMapView from './components/SimpleMapView'
 import './App.css'
 
 function App() {
   const [showMap, setShowMap] = useState(false);
+  const [useRealMap, setUseRealMap] = useState(false);
+  const hasApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   return (
     <div className="App">
       <div className="min-h-screen bg-gray-50">
@@ -71,33 +74,84 @@ function App() {
                 </p>
               </div>
               
-              <div className="mt-8">
-                <button 
-                  onClick={() => setShowMap(true)}
-                  className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
-                >
-                  🚀 启动地图功能
-                </button>
+              <div className="mt-8 space-y-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button 
+                    onClick={() => { setShowMap(true); setUseRealMap(false); }}
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                  >
+                    🗺️ 演示地图
+                  </button>
+                  
+                  {hasApiKey && (
+                    <button 
+                      onClick={() => { setShowMap(true); setUseRealMap(true); }}
+                      className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                    >
+                      🌍 真实Google地图
+                    </button>
+                  )}
+                </div>
+                
+                {!hasApiKey && (
+                  <p className="text-sm text-gray-600 bg-yellow-50 border border-yellow-200 rounded p-3">
+                    💡 配置Google Maps API密钥后可使用真实地图功能
+                  </p>
+                )}
               </div>
               
               {showMap && (
                 <div className="mt-8">
                   <div className="bg-white rounded-xl shadow-lg overflow-hidden" style={{ height: '600px' }}>
                     <div className="flex items-center justify-between p-4 border-b">
-                      <h3 className="text-lg font-semibold">DDmap 演示版</h3>
-                      <button 
-                        onClick={() => setShowMap(false)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        ✕
-                      </button>
+                      <h3 className="text-lg font-semibold">
+                        {useRealMap ? '🌍 Google Maps - DDmap' : '🗺️ DDmap 演示版'}
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        {showMap && (
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => setUseRealMap(false)}
+                              className={`px-3 py-1 text-xs rounded ${
+                                !useRealMap 
+                                  ? 'bg-blue-100 text-blue-800' 
+                                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                              }`}
+                            >
+                              演示
+                            </button>
+                            {hasApiKey && (
+                              <button
+                                onClick={() => setUseRealMap(true)}
+                                className={`px-3 py-1 text-xs rounded ${
+                                  useRealMap 
+                                    ? 'bg-green-100 text-green-800' 
+                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                }`}
+                              >
+                                真实
+                              </button>
+                            )}
+                          </div>
+                        )}
+                        <button 
+                          onClick={() => setShowMap(false)}
+                          className="text-gray-500 hover:text-gray-700"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     </div>
                     <div style={{ height: '500px' }}>
-                      <SimpleMapView 
-                        onAddAnnotation={(location) => {
-                          console.log('新增地址标注:', location);
-                        }} 
-                      />
+                      {useRealMap && hasApiKey ? (
+                        <MapView />
+                      ) : (
+                        <SimpleMapView 
+                          onAddAnnotation={(location) => {
+                            console.log('新增地址标注:', location);
+                          }} 
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
