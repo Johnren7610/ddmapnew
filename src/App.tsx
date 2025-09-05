@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import MapView from './components/MapView'
 import SimpleMapView from './components/SimpleMapView'
+import GoogleMapTest from './components/GoogleMapTest'
 import './App.css'
 
 function App() {
@@ -84,12 +85,21 @@ function App() {
                   </button>
                   
                   {hasApiKey && (
-                    <button 
-                      onClick={() => { setShowMap(true); setUseRealMap(true); }}
-                      className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
-                    >
-                      🌍 真实Google地图
-                    </button>
+                    <>
+                      <button 
+                        onClick={() => { setShowMap(true); setUseRealMap(true); }}
+                        className="bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                      >
+                        🌍 真实Google地图
+                      </button>
+                      
+                      <button 
+                        onClick={() => { setShowMap(true); setUseRealMap('test'); }}
+                        className="bg-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors"
+                      >
+                        🧪 Google地图测试
+                      </button>
+                    </>
                   )}
                 </div>
                 
@@ -143,7 +153,9 @@ function App() {
                       </div>
                     </div>
                     <div style={{ height: '500px' }}>
-                      {useRealMap && hasApiKey ? (
+                      {useRealMap === 'test' ? (
+                        <GoogleMapTest />
+                      ) : useRealMap && hasApiKey ? (
                         <MapView />
                       ) : (
                         <SimpleMapView 
