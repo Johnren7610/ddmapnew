@@ -5,6 +5,8 @@ interface SimpleMapViewProps {
 }
 
 const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
+  const [zoom, setZoom] = useState(1);
+  const [selectedAnnotation, setSelectedAnnotation] = useState<number | null>(null);
   const [annotations, setAnnotations] = useState([
     {
       id: 1,
@@ -17,6 +19,7 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
       isLiked: false,
       hasTip: true,
       hasDog: false,
+      notes: '市中心繁忙，停车较难，但客户通常给小费',
     },
     {
       id: 2,
@@ -29,6 +32,20 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
       isLiked: true,
       hasTip: true,
       hasDog: true,
+      notes: '居民区友善，有免费停车位，注意宠物较多',
+    },
+    {
+      id: 3,
+      x: 200,
+      y: 400,
+      title: 'Kitsilano Beach',
+      address: '1305 Arbutus St, Vancouver',
+      rating: 3.5,
+      likes: 8,
+      isLiked: false,
+      hasTip: false,
+      hasDog: true,
+      notes: '海滩区域，夏季拥挤，停车困难',
     },
   ]);
 
@@ -47,6 +64,30 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
 
   return (
     <div className="relative w-full h-full bg-gradient-to-br from-blue-100 to-green-100 rounded-lg overflow-hidden">
+      {/* 缩放控制按钮 */}
+      <div className="absolute top-4 right-4 flex flex-col space-y-2 z-20">
+        <button
+          onClick={() => setZoom(Math.min(zoom * 1.2, 2))}
+          className="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-50 font-bold text-lg"
+        >
+          +
+        </button>
+        <button
+          onClick={() => setZoom(Math.max(zoom / 1.2, 0.5))}
+          className="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-50 font-bold text-lg"
+        >
+          −
+        </button>
+        <div className="bg-white rounded-lg shadow-lg px-2 py-1 text-xs text-center">
+          {Math.round(zoom * 100)}%
+        </div>
+      </div>
+
+      {/* 地图内容区域 */}
+      <div 
+        className="absolute inset-0 transition-transform duration-300"
+        style={{ transform: `scale(${zoom})`, transformOrigin: 'center center' }}
+      >
       {/* 地图背景网格 */}
       <div 
         className="absolute inset-0 opacity-20"
@@ -67,16 +108,21 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
 
       {/* 地址标注点 */}
       {annotations.map((ann) => (
-        <div key={ann.id} className="absolute group" style={{ left: ann.x, top: ann.y }}>
+        <div key={ann.id} className="absolute" style={{ left: ann.x, top: ann.y }}>
           {/* 标记点 */}
-          <div className={`w-6 h-6 rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-x-3 -translate-y-3 ${
-            ann.rating >= 4.5 ? 'bg-green-500' : 
-            ann.rating >= 4 ? 'bg-yellow-500' : 'bg-red-500'
-          } hover:scale-125 transition-transform`}>
+          <div 
+            className={`w-8 h-8 rounded-full border-3 border-white shadow-lg cursor-pointer transform -translate-x-4 -translate-y-4 ${
+              ann.rating >= 4.5 ? 'bg-green-500' : 
+              ann.rating >= 4 ? 'bg-yellow-500' : 'bg-red-500'
+            } hover:scale-125 transition-all duration-200 flex items-center justify-center text-white text-xs font-bold`}
+            onClick={() => setSelectedAnnotation(selectedAnnotation === ann.id ? null : ann.id)}
+          >
+            {ann.id}
           </div>
 
-          {/* 信息卡片 */}
-          <div className="absolute left-1/2 bottom-8 transform -translate-x-1/2 hidden group-hover:block z-10">
+          {/* 点击显示的信息卡片 */}
+          {selectedAnnotation === ann.id && (
+            <div className="absolute left-1/2 bottom-10 transform -translate-x-1/2 z-30">
             <div className="bg-white rounded-lg shadow-xl p-4 w-64 border">
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-bold text-gray-900 text-sm">{ann.title}</h3>
@@ -111,8 +157,19 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
                 )}
               </div>
               
-              <div className="text-xs text-gray-500">
-                点击标记点查看详情
+              <p className="text-xs text-gray-600 mb-2 italic">"{ann.notes}"</p>
+              
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-gray-500">点击其他地点或再次点击关闭</span>
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedAnnotation(null);
+                  }}
+                  className="text-gray-400 hover:text-gray-600 text-sm"
+                >
+                  ✕
+                </button>
               </div>
               
               {/* 小箭头 */}
@@ -120,9 +177,11 @@ const SimpleMapView: React.FC<SimpleMapViewProps> = ({ onAddAnnotation }) => {
                 <div className="w-3 h-3 bg-white border-r border-b transform rotate-45 -mt-1.5"></div>
               </div>
             </div>
-          </div>
+            </div>
+          )}
         </div>
       ))}
+      </div>
 
       {/* 比例尺 */}
       <div className="absolute bottom-4 left-4 bg-white rounded-lg p-2 shadow-md">
